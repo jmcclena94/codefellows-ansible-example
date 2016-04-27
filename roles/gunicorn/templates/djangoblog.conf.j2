@@ -14,5 +14,6 @@ env DB_HOST={{ db_host  }}
 env DJANGO_SECRET_KEY= {{ django_secret_key }}
 env GMAIL_USERNAME= {{ gmail_username  }}
 env GMAIL_PW={{ gmail_pw  }}
+env DJANGO_ALLOWED_HOST={{ allowed_host  }}
 
 exec gunicorn -b 127.0.0.1:8000 -w 4 imager.wsgi --error-logfile /tmp/imager-error.log
