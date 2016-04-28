@@ -10,4 +10,4 @@
 
 - name: Start gunicorn Upstart Job
   sudo: yes
-  service: name=djangoblog state=restarted
+  service: name=imager state=restarted

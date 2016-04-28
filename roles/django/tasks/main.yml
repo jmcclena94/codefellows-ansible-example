@@ -9,6 +9,7 @@
     - python-pip
     - postgresql-client
     - libpq-dev
+    - libjpeg8-dev
     - python-pip
     - python-psycopg2
     - git
@@ -34,30 +35,39 @@
 #   set_fact:
 #     db_url: "{{ db_host.ec2_engine }}://{{ db_host.ec2_master_username }}:{{ db_password }}@{{ db_host.ec2__address }}:{{ db_host.ec2__port }}/{{ db_host.ec2_DBName }}"
 
-- name: Set DB HOST
-  set_fact:
-    db_host: "{{ db_host.ec2__address }}:{{ db_host.ec2__port }}/{{ db_host.ec2_DBName }}"
+# - name: Set DB HOST
+#   set_fact:
+#       db_host: "{{ db_host.ec2__address }}"
+    # db_host: "{{ db_host.ec2__address }}:{{ db_host.ec2__port }}/{{ db_host.ec2_DBName }}"
+
+- include_vars: secrets.yml
 
 - name: Run Migrations
   environment:
-      DB_NAME: db_name
-      DB_PW: db_password
-      DB_USER: db_user
-      DB_HOST: "{{ db_host }}"
+      DB_NAME: "{{ db_name }}"
+      DB_PW: "{{ db_password }}"
+      DB_USER: "{{ db_user }}"
+      DB_HOST: imagerdb.cousackhc6yj.us-west-2.rds.amazonaws.com
+      GMAIL_USERNAME: gmail_username
+      GMAIL_PW: gmail_pw
+      DJANGO_SECRET_KEY: django_secret_key
     # DATABASE_URL: "{{ db_url }}"
   django_manage:
-    app_path: "{{ django_home }}"
-    settings: mysite.production
+    app_path: "{{ django_home }}/imager"
+    settings: imager.settings
     command: migrate
 
-- name: Collect Static Files
-  environment:
-      DB_NAME: db_name
-      DB_PW: db_password
-      DB_USER: db_user
-      DB_HOST: "{{ db_host }}"
-    # DATABASE_URL: "{{ db_url }}"
-  django_manage:
-    app_path: "{{ django_home }}"
-    settings: mysite.production
-    command: collectstatic
+# - name: Collect Static Files
+#   environment:
+#       DB_NAME: "{{ db_name }}"
+#       DB_PW: "{{ db_password }}"
+#       DB_USER: "{{ db_user }}"
+#       DB_HOST: imagerdb.cousackhc6yj.us-west-2.rds.amazonaws.com
+#       GMAIL_USERNAME: gmail_username
+#       GMAIL_PW: gmail_pw
+#       DJANGO_SECRET_KEY: django_secret_key
+#     # DATABASE_URL: "{{ db_url }}"
+#   django_manage:
+#     app_path: "{{ django_home }}/imager"
+#     settings: imager.settings
+#     command: collectstatic
