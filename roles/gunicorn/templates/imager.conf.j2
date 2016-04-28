@@ -10,8 +10,8 @@ chdir {{ django_home }}/imager
 env DB_NAME={{ db_name  }}
 env DB_USER={{ db_user  }}
 env DB_PW={{ db_password  }}
-env DB_HOST=imagerdb.cousackhc6yj.us-west-2.rds.amazonaws.com
-env DJANGO_SECRET_KEY="#kizucnmpkr-7pcevo&5+1rvu_w8#w=3)$)ohjnr+q&zxf9brg"
+env DB_HOST={{ db_host_loc  }}
+env DJANGO_SECRET_KEY={{ django_secret_key }}
 env GMAIL_USERNAME={{ gmail_username  }}
 env GMAIL_PW={{ gmail_pw  }}
 env DJANGO_ALLOWED_HOST=ec2-54-213-54-236.us-west-2.compute.amazonaws.com
